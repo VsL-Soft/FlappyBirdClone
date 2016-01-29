@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FlappyBirdMode : MonoBehaviour {
     private float topBorder;
@@ -15,10 +17,12 @@ public class FlappyBirdMode : MonoBehaviour {
     public GameObject obsticle;
     public GameObject player;
     public GameObject enemy;
+    public Button PlayAgainButton;
 
 
 	// Use this for initialization
 	void Start () {
+        PlayAgainButton.gameObject.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         midPoint = player.transform.position.y;
         topBorder = midPoint + distanceBetweenBorders/2;
@@ -38,20 +42,25 @@ public class FlappyBirdMode : MonoBehaviour {
 	}
 
     private void lose() {
-        GameObject p = (GameObject)Instantiate(loseText, new Vector3(player.transform.position.x + 20, bottomBorder + 3.5f, player.transform.position.z), new Quaternion());
-        p.transform.SetParent(canvas.transform);
+        PlayAgainButton.gameObject.SetActive(true);
+        Debug.Log("lol");
+        //TODO pause
+        pause();
         fadeOut();
-        showLosingScreen();
         //remove later      
-        Application.LoadLevel(Application.loadedLevelName);
+        //Application.LoadLevel(Application.loadedLevelName);
     }
     // TODO anything lol
     private void fadeOut() {
-
+        
     }
-    //TODO anything
-    private void showLosingScreen() {
 
+    public void ButtonClicked() {
+        SceneManager.LoadScene("Level1");
+    }
+
+    //TODO pause
+    public void pause() {
     }
 
     void spawnObsticle() {
