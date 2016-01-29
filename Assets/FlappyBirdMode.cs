@@ -22,28 +22,32 @@ public class FlappyBirdMode : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        PlayAgainButton.gameObject.SetActive(false);
+        
         player = GameObject.FindGameObjectWithTag("Player");
         midPoint = player.transform.position.y;
         topBorder = midPoint + distanceBetweenBorders/2;
         bottomBorder = midPoint - distanceBetweenBorders/2;
-        canvas = FindObjectOfType<Canvas>();
-	}
+        canvas = FindObjectOfType<Canvas>();        
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-	    if(player.transform.position.y < bottomBorder || player.transform.position.y > topBorder) {
-            lose();
+
+        if (player.transform.position.y < bottomBorder || player.transform.position.y > topBorder) {
+            player.SendMessage("reduceLive", 1);
+            //TODO push player towords center
+            
         }
         timer -= Time.deltaTime;
         if (spawnObjects) {
             spawnObsticle();
         }
 	}
-
+    
+    //TODO mothod unneccessary
     private void lose() {
-        PlayAgainButton.gameObject.SetActive(true);
-        Debug.Log("lol");
         //TODO pause
         pause();
         fadeOut();

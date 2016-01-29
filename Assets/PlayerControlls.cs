@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControlls : MonoBehaviour {
 
@@ -15,9 +17,11 @@ public class PlayerControlls : MonoBehaviour {
     public float projectileSpeed = 10;
     public int lives;
     public GameObject bullet;
+    public Button PlayAgainButton;
 
     // Use this for initialization
     void Start () {
+        PlayAgainButton.gameObject.SetActive(false);
         Invoke("unfreezeAllAxis", 5);
         lives = 3;
 	}
@@ -31,8 +35,8 @@ public class PlayerControlls : MonoBehaviour {
             GetComponent<Rigidbody2D>().velocity = Vector3.up * -1.5f*maxYSpeed;
         }
     }
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update() {
         if (!isDead) {
             handleInput();
         }
@@ -41,7 +45,7 @@ public class PlayerControlls : MonoBehaviour {
             isHurtable = true;
             GetComponent<Animator>().SetBool("isHurtable", true);
         }
-	}
+    }
 
     //handles all input
     void handleInput() {
@@ -92,6 +96,8 @@ public class PlayerControlls : MonoBehaviour {
             if (lives == 0) {
                 GetComponent<Animator>().SetBool("dead", true);
                 isDead = true;
+                PlayAgainButton.gameObject.SetActive(true);
+                //TODO stop camera from moving 
             }
             timeNotHurtable = 2;
             isHurtable = false;
