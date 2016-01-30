@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using UnityEditor.SceneManagement;
-using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class FlappyBirdMode : MonoBehaviour {
     private float topBorder;
     private float bottomBorder;
     private float midPoint;
+    private bool isPause;
     public float distanceBetweenBorders = 15;
     public float timer = 5;
     public bool spawnObjects = true;
@@ -27,44 +26,32 @@ public class FlappyBirdMode : MonoBehaviour {
         midPoint = player.transform.position.y;
         topBorder = midPoint + distanceBetweenBorders/2;
         bottomBorder = midPoint - distanceBetweenBorders/2;
-        canvas = FindObjectOfType<Canvas>();        
-
+        canvas = FindObjectOfType<Canvas>();
+        isPause = false;
 
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (!isPause) {
+            if (player.transform.position.y < bottomBorder || player.transform.position.y > topBorder) {
+                player.SendMessage("reduceLive", 1);
+                //TODO push player towords center
 
-        if (player.transform.position.y < bottomBorder || player.transform.position.y > topBorder) {
-            player.SendMessage("reduceLive", 1);
-            //TODO push player towords center
-            
-        }
-        timer -= Time.deltaTime;
-        if (spawnObjects) {
-            spawnObsticle();
+            }
+            timer -= Time.deltaTime;
+            if (spawnObjects) {
+                spawnObsticle();
+            }
         }
 	}
-    
-    //TODO mothod unneccessary
-    private void lose() {
-        //TODO pause
-        pause();
-        fadeOut();
-        //remove later      
-        //Application.LoadLevel(Application.loadedLevelName);
-    }
-    // TODO anything lol
-    private void fadeOut() {
-        
-    }
 
-    public void ButtonClicked() {
-        SceneManager.LoadScene("Level1");
-    }
-
-    //TODO pause
     public void pause() {
+        isPause = true;
+    }
+
+    public void unPause() {
+        isPause = false;
     }
 
     void spawnObsticle() {

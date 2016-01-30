@@ -15,15 +15,21 @@ public class PlayerControlls : MonoBehaviour {
     public float jumpPower = 45000;
     public float maxYSpeed = 5;
     public float projectileSpeed = 10;
+    public float firerate = 0.8f; // Firerate in seconds
     public int lives;
+
+    private float fireRateTimer;
     public GameObject bullet;
     public Button PlayAgainButton;
+
+    public AudioClip jumpingSound;
 
     // Use this for initialization
     void Start () {
         PlayAgainButton.gameObject.SetActive(false);
         Invoke("unfreezeAllAxis", 5);
         lives = 3;
+        fireRateTimer = firerate;
 	}
 	// Put Physics related shit here
     void FixedUpdate() {
@@ -40,7 +46,10 @@ public class PlayerControlls : MonoBehaviour {
         if (!isDead) {
             handleInput();
         }
+
         timeNotHurtable -= Time.deltaTime;
+        fireRateTimer -= Time.deltaTime;
+
         if (timeNotHurtable <= 0) {
             isHurtable = true;
             GetComponent<Animator>().SetBool("isHurtable", true);
@@ -53,7 +62,7 @@ public class PlayerControlls : MonoBehaviour {
             jump(jumpPower);
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButton(0) && fireRateTimer <= 0) {
             Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
             Vector2 direction = target - myPos;
@@ -61,6 +70,7 @@ public class PlayerControlls : MonoBehaviour {
             Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
             GameObject projectile = (GameObject)Instantiate(bullet, myPos, rotation);
             projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+            fireRateTimer = firerate;
         }
     }
     // handles if there is autoscrolling and how it works
@@ -80,6 +90,7 @@ public class PlayerControlls : MonoBehaviour {
 
     void jump(float power) {
         GetComponent<Rigidbody2D>().velocity = new Vector3( 0, 1 * maxYSpeed, 0);
+        AudioSource.PlayClipAtPoint(jumpingSound, this.transform.position);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
@@ -93,14 +104,26 @@ public class PlayerControlls : MonoBehaviour {
             lives -= amount;
             GetComponent<Animator>().SetTrigger("hurt");
             GetComponent<Animator>().SetBool("isHurtable", false);
-            if (lives == 0) {
+            if (lives <= 0) {
                 GetComponent<Animator>().SetBool("dead", true);
                 isDead = true;
                 PlayAgainButton.gameObject.SetActive(true);
-                //TODO stop camera from moving 
+                GameObject.FindGameObjectWithTag("GM").GetComponent<GameMasterScript>().pauseTheGame();
             }
             timeNotHurtable = 2;
             isHurtable = false;
         }
+    }
+
+    void pause() {
+        isHurtable = false;
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        autoMove = false;
+    }
+
+    void unPause() {
+        isHurtable = true;
+        unfreezeAllAxis();
+        autoMove = true;
     }
 }
