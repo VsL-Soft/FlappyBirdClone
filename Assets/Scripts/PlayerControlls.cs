@@ -17,6 +17,7 @@ public class PlayerControlls : MonoBehaviour {
     public float projectileSpeed = 10;
     public float firerate = 0.8f; // Firerate in seconds
     public int lives;
+    public int maxLives = 10;
 
     private float fireRateTimer;
     public GameObject bullet;
@@ -46,7 +47,7 @@ public class PlayerControlls : MonoBehaviour {
         if (!isDead) {
             handleInput();
         }
-
+        Debug.Log("x : " + GetComponent<Rigidbody2D>().velocity.x + " y : " + GetComponent<Rigidbody2D>().velocity.y);
         timeNotHurtable -= Time.deltaTime;
         fireRateTimer -= Time.deltaTime;
 
@@ -78,9 +79,11 @@ public class PlayerControlls : MonoBehaviour {
         if (autoMove && moveRight) {
             transform.Translate(Vector3.right * autoscrollSpeed * Time.deltaTime);
             transform.localScale = new Vector3(transform.localScale.y, 1, transform.localScale.z);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(1, GetComponent<Rigidbody2D>().velocity.y);
         } else if (autoMove && !moveRight) {
             transform.Translate(Vector3.left * autoscrollSpeed * Time.deltaTime);
             transform.localScale = new Vector3(transform.localScale.y, -1, transform.localScale.z);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
         }
     }
 
@@ -89,7 +92,7 @@ public class PlayerControlls : MonoBehaviour {
     }
 
     void jump(float power) {
-        GetComponent<Rigidbody2D>().velocity = new Vector3( 0, 1 * maxYSpeed, 0);
+        GetComponent<Rigidbody2D>().velocity = new Vector2( 0, 1 * maxYSpeed);
         AudioSource.PlayClipAtPoint(jumpingSound, this.transform.position);
     }
 
@@ -104,6 +107,7 @@ public class PlayerControlls : MonoBehaviour {
             lives -= amount;
             GetComponent<Animator>().SetTrigger("hurt");
             GetComponent<Animator>().SetBool("isHurtable", false);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
             if (lives <= 0) {
                 GetComponent<Animator>().SetBool("dead", true);
                 isDead = true;
@@ -112,6 +116,12 @@ public class PlayerControlls : MonoBehaviour {
             }
             timeNotHurtable = 2;
             isHurtable = false;
+        }
+    }
+
+    public void increaseLive(int amount) {
+        if(lives < maxLives) {
+            lives += amount;
         }
     }
 

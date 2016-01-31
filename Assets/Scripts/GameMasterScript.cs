@@ -11,7 +11,7 @@ public class GameMasterScript : MonoBehaviour {
 
     // saves the object from beeing destroyed on loading another scene
     void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
+        //DontDestroyOnLoad(transform.gameObject);
     }
     // Use this for initialization
     void Start () {
