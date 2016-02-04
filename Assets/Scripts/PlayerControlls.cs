@@ -27,6 +27,8 @@ public class PlayerControlls : MonoBehaviour {
     public Button PlayAgainButton;
 
     public AudioClip jumpingSound;
+    public GUIStyle counterStyle;
+    private int counter;
 
     // Use this for initialization
     void Start () {
@@ -34,7 +36,8 @@ public class PlayerControlls : MonoBehaviour {
         Invoke("unfreezeAllAxis", 5);
         lives = 3;
         fireRateTimer = firerate;
-	}
+
+    }
 	// Put Physics related shit here
     void FixedUpdate() {
         handleAutoMove();
@@ -105,12 +108,17 @@ public class PlayerControlls : MonoBehaviour {
         for(int i = 0; i < lives; i++) {
             GUI.Label(new Rect(positionOfHearts + (sizeOfHearts * i), positionOfHearts, sizeOfHearts, sizeOfHearts), heart);
         }
+        GUI.Label(new Rect(positionOfHearts + 10, positionOfHearts + sizeOfHearts, sizeOfHearts * 4, sizeOfHearts), counter.ToString(), counterStyle);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "FlappyObsticle" || other.tag == "Enemy") {
             reduceLive(1);
         }
+        if (other.tag == "Counter" && !isDead) {
+            counter++;
+        }
+
     }
 
     void reduceLive(int amount) {
