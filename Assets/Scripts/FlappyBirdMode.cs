@@ -16,7 +16,6 @@ public class FlappyBirdMode : MonoBehaviour {
     public GameObject obsticle;
     public GameObject player;
     public GameObject enemy;
-    public Button PlayAgainButton;
 
 
 	// Use this for initialization

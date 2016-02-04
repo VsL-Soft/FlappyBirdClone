@@ -10,15 +10,13 @@ public class PlayerControlls : MonoBehaviour {
     public bool isDead = false;
     public bool isHurtable = true;
 
-    public Texture2D heart;
     public float timeNotHurtable = 2; // how long the player is invincible after a hit in seconds
     public float autoscrollSpeed = 0.5f; //units per second
     public float jumpPower = 45000;
     public float maxYSpeed = 5;
     public float projectileSpeed = 10;
     public float firerate = 0.8f; // Firerate in seconds
-    public float sizeOfHearts;
-    public float positionOfHearts;
+
     public int lives;
     public int maxLives = 10;
 
@@ -27,8 +25,8 @@ public class PlayerControlls : MonoBehaviour {
     public Button PlayAgainButton;
 
     public AudioClip jumpingSound;
-    public GUIStyle counterStyle;
-    private int counter;
+    //Score
+    public int counter = 0;
 
     // Use this for initialization
     void Start () {
@@ -104,12 +102,6 @@ public class PlayerControlls : MonoBehaviour {
         AudioSource.PlayClipAtPoint(jumpingSound, this.transform.position);
     }
 
-    void OnGUI() {
-        for(int i = 0; i < lives; i++) {
-            GUI.Label(new Rect(positionOfHearts + (sizeOfHearts * i), positionOfHearts, sizeOfHearts, sizeOfHearts), heart);
-        }
-        GUI.Label(new Rect(positionOfHearts + 10, positionOfHearts + sizeOfHearts, sizeOfHearts * 4, sizeOfHearts), counter.ToString(), counterStyle);
-    }
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "FlappyObsticle" || other.tag == "Enemy") {
