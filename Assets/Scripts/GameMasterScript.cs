@@ -8,6 +8,7 @@ public enum GameMode {
 public class GameMasterScript : MonoBehaviour {
     GameObject player;
     GameMode gamemode;
+    private bool isPaused;
 
     // saves the object from beeing destroyed on loading another scene
     void Awake() {
@@ -18,6 +19,7 @@ public class GameMasterScript : MonoBehaviour {
 	    player = GameObject.FindGameObjectWithTag("Player");
         gamemode = GameMode.FLAPPYMODE;
         setGameMode(GameMode.FLAPPYMODE);
+        isPaused = false;
 	}
 	
 	// Update is called once per frame
@@ -42,6 +44,7 @@ public class GameMasterScript : MonoBehaviour {
         foreach (GameObject go in objects) {
             go.SendMessage("pause", SendMessageOptions.DontRequireReceiver);
         }
+        isPaused = true;
     }
 
     public void unPauseTheGame() {
@@ -49,6 +52,7 @@ public class GameMasterScript : MonoBehaviour {
         foreach (GameObject go in objects) {
             go.SendMessage("unPause", SendMessageOptions.DontRequireReceiver);
         }
+        isPaused = false;
     }
 
     public void loadLevel(string level) {
@@ -57,5 +61,14 @@ public class GameMasterScript : MonoBehaviour {
 
     public void loadLevel(int id) {
         SceneManager.LoadScene(id);
+    }
+
+    public void pauseButten() {
+        if(isPaused) {
+            unPauseTheGame();
+        } else {
+            pauseTheGame();
+        }
+        
     }
 }
