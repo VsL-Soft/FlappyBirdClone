@@ -6,32 +6,30 @@ public class FlappyBirdMode : MonoBehaviour {
     private float topBorder;
     private float bottomBorder;
     private float midPoint;
-    private bool isPause;
+    public bool isPause;
     public float distanceBetweenBorders = 15;
     public float timer = 5;
     public bool spawnObjects = true;
 
-    public Canvas canvas;
-    public GameObject loseText;
     public GameObject obsticle;
     public GameObject player;
     public GameObject enemy;
 
 
 	// Use this for initialization
-	void Start () {
-        
-        player = GameObject.FindGameObjectWithTag("Player");
-        midPoint = player.transform.position.y;
-        topBorder = midPoint + distanceBetweenBorders/2;
-        bottomBorder = midPoint - distanceBetweenBorders/2;
-        canvas = FindObjectOfType<Canvas>();
+	void Start () { 
         isPause = false;
 
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if(player == null) {
+            player = GameObject.FindGameObjectWithTag("Player");
+            midPoint = player.transform.position.y;
+            topBorder = midPoint + distanceBetweenBorders / 2;
+            bottomBorder = midPoint - distanceBetweenBorders / 2;
+        }
         if (!isPause) {
             if (player.transform.position.y < bottomBorder || player.transform.position.y > topBorder) {
                 player.SendMessage("reduceLive", 1);
