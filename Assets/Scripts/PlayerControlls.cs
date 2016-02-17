@@ -31,7 +31,7 @@ public class PlayerControlls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         PlayAgainButton.gameObject.SetActive(false);
-        Invoke("unfreezeAllAxis", 5);
+        Invoke("unfreezeAllAxis", 3);
         lives = 3;
         fireRateTimer = firerate;
 
@@ -51,7 +51,6 @@ public class PlayerControlls : MonoBehaviour {
         if (!isDead) {
             handleInput();
         }
-        Debug.Log("x : " + GetComponent<Rigidbody2D>().velocity.x + " y : " + GetComponent<Rigidbody2D>().velocity.y);
         timeNotHurtable -= Time.deltaTime;
         fireRateTimer -= Time.deltaTime;
 

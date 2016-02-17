@@ -3,36 +3,42 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public enum GameMode {
-    FLAPPYMODE
+    FLAPPYMODE, MAINMENU
 }
 public class GameMasterScript : MonoBehaviour {
     GameObject player;
-    GameMode gamemode;
+    public GameMode currentGamemode;
+    public GameObject flappyBirdModePrefab;
+    private GameObject activeGameModePrefab;
+    private bool isPaused;
 
     // saves the object from beeing destroyed on loading another scene
     void Awake() {
-        //DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(transform.gameObject);
     }
     // Use this for initialization
     void Start () {
 	    player = GameObject.FindGameObjectWithTag("Player");
-        gamemode = GameMode.FLAPPYMODE;
-        setGameMode(GameMode.FLAPPYMODE);
+        currentGamemode = GameMode.MAINMENU;
+        //setGameMode(GameMode.FLAPPYMODE);
+        isPaused = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        switch (gamemode) {
+        switch (currentGamemode) {
             case GameMode.FLAPPYMODE:
                 break;
+            case GameMode.MAINMENU:
+            break;
         }
 	}
 
     public void setGameMode(GameMode g) {
         switch (g) {
             case GameMode.FLAPPYMODE:
-                GameObject mode = (GameObject)Instantiate(Resources.Load("Flappybird"));
-                mode.transform.SetParent(this.transform);
+                activeGameModePrefab = (GameObject)Instantiate(flappyBirdModePrefab, Vector3.zero, new Quaternion());
+                activeGameModePrefab.transform.SetParent(this.transform);
                 break;
         }
     }
@@ -42,6 +48,7 @@ public class GameMasterScript : MonoBehaviour {
         foreach (GameObject go in objects) {
             go.SendMessage("pause", SendMessageOptions.DontRequireReceiver);
         }
+        isPaused = true;
     }
 
     public void unPauseTheGame() {
@@ -49,6 +56,7 @@ public class GameMasterScript : MonoBehaviour {
         foreach (GameObject go in objects) {
             go.SendMessage("unPause", SendMessageOptions.DontRequireReceiver);
         }
+        isPaused = false;
     }
 
     public void loadLevel(string level) {
@@ -57,5 +65,29 @@ public class GameMasterScript : MonoBehaviour {
 
     public void loadLevel(int id) {
         SceneManager.LoadScene(id);
+    }
+
+    public void pauseButten() {
+        if(isPaused) {
+            unPauseTheGame();
+        } else {
+            pauseTheGame();
+        }
+        
+    }
+
+    public void startEndlessMode() {
+        setGameMode(GameMode.FLAPPYMODE);
+    }
+
+    public void restartMode() {
+        switch (currentGamemode) {
+            case GameMode.FLAPPYMODE:
+            activeGameModePrefab = null;
+            setGameMode(GameMode.FLAPPYMODE);
+            break;
+            case GameMode.MAINMENU:
+            break;
+        }
     }
 }
