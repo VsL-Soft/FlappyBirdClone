@@ -90,4 +90,8 @@ public class GameMasterScript : MonoBehaviour {
             break;
         }
     }
+
+    public void exitGame() {
+        Application.Quit();
+    }
 }

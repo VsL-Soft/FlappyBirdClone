@@ -23,6 +23,7 @@ public class PlayerControlls : MonoBehaviour {
     private float fireRateTimer;
     public GameObject bullet;
     public Button PlayAgainButton;
+    public Button MainManuButton;
 
     public AudioClip jumpingSound;
     //Score
@@ -31,6 +32,7 @@ public class PlayerControlls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         PlayAgainButton.gameObject.SetActive(false);
+        MainManuButton.gameObject.SetActive(false);
         Invoke("unfreezeAllAxis", 3);
         lives = 3;
         fireRateTimer = firerate;
@@ -122,6 +124,7 @@ public class PlayerControlls : MonoBehaviour {
                 GetComponent<Animator>().SetBool("dead", true);
                 isDead = true;
                 PlayAgainButton.gameObject.SetActive(true);
+                MainManuButton.gameObject.SetActive(true);
                 GameObject.FindGameObjectWithTag("GM").GetComponent<GameMasterScript>().pauseTheGame();
             }
             timeNotHurtable = 2;
