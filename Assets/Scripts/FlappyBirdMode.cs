@@ -9,7 +9,9 @@ public class FlappyBirdMode : MonoBehaviour {
     public bool isPause;
     public float distanceBetweenBorders = 15;
     public float timer = 5;
+    private float usedTimer;
     public bool spawnObjects = true;
+
 
     public GameObject obsticle;
     public GameObject player;
@@ -19,6 +21,7 @@ public class FlappyBirdMode : MonoBehaviour {
 	// Use this for initialization
 	void Start () { 
         isPause = false;
+        usedTimer = timer;
 
     }
 	
@@ -26,9 +29,11 @@ public class FlappyBirdMode : MonoBehaviour {
 	void Update () {
         if(player == null) {
             player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null) {
             midPoint = player.transform.position.y;
             topBorder = midPoint + distanceBetweenBorders / 2;
             bottomBorder = midPoint - distanceBetweenBorders / 2;
+            }
         }
         if (!isPause) {
             if (player.transform.position.y < bottomBorder || player.transform.position.y > topBorder) {
@@ -36,7 +41,7 @@ public class FlappyBirdMode : MonoBehaviour {
                 //TODO push player towords center
 
             }
-            timer -= Time.deltaTime;
+            usedTimer -= Time.deltaTime;
             if (spawnObjects) {
                 spawnObsticle();
             }
@@ -52,15 +57,16 @@ public class FlappyBirdMode : MonoBehaviour {
     }
 
     void spawnObsticle() {
-        if(timer <= 0) {
+        if(usedTimer <= 0) {
             float r = Random.value;
-            if(r >= 0.5) {
+            if(r >= 0.5f) {
                 GameObject projectile = (GameObject)Instantiate(obsticle, new Vector3(player.transform.position.x + 20, bottomBorder + 3.3f, player.transform.position.z), new Quaternion());
                 GameObject e = (GameObject)Instantiate(enemy, new Vector3(player.transform.position.x + 20, bottomBorder + 3.3f, player.transform.position.z), new Quaternion());
             } else {
                 GameObject projectile = (GameObject)Instantiate(obsticle, new Vector3(player.transform.position.x + 20, topBorder - 3.3f, player.transform.position.z), new Quaternion(0,0,180,0));
             }
-            timer = 5;
+            usedTimer = timer;
         }
+        
     }
 }

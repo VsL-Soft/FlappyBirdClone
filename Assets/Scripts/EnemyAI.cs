@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemyAI : MonoBehaviour {
     private GameObject player;
+    public GameObject attackSpeedBuff;
     public GameObject onDeathParticles;
     public AudioClip onDeathSound;
     public bool isPause;
@@ -37,7 +38,7 @@ public class EnemyAI : MonoBehaviour {
             Instantiate(onDeathParticles, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 180, 0));
             AudioSource.PlayClipAtPoint(onDeathSound, transform.position);
             foreach(GameObject o in dropableItems) {
-                if(Random.value > dropChance) {
+                if(Random.value < dropChance) {
                     Instantiate(o, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 0, 0));
                 }
             }

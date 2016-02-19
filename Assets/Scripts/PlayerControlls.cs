@@ -9,13 +9,16 @@ public class PlayerControlls : MonoBehaviour {
     public bool moveRight = true;
     public bool isDead = false;
     public bool isHurtable = true;
+    private bool isPaused;
 
     public float timeNotHurtable = 2; // how long the player is invincible after a hit in seconds
     public float autoscrollSpeed = 0.5f; //units per second
     public float jumpPower = 45000;
     public float maxYSpeed = 5;
     public float projectileSpeed = 10;
-    public float firerate = 0.8f; // Firerate in seconds
+    public float basicFirerate = 0.5f; // Firerate in seconds
+    public float firerate;
+    public float maxFirerate = 0.1f;
 
     public int lives;
     public int maxLives = 10;
@@ -35,7 +38,9 @@ public class PlayerControlls : MonoBehaviour {
         MainManuButton.gameObject.SetActive(false);
         Invoke("unfreezeAllAxis", 3);
         lives = 3;
+        basicFirerate = firerate;
         fireRateTimer = firerate;
+        isPaused = false;
 
     }
 	// Put Physics related shit here
@@ -70,7 +75,7 @@ public class PlayerControlls : MonoBehaviour {
             jump(jumpPower);
         }
 
-        if (Input.GetMouseButton(0) && fireRateTimer <= 0) {
+        if (Input.GetMouseButton(0) && fireRateTimer <= 0 && !isPaused) {
             Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
             Vector2 direction = target - myPos;
@@ -139,14 +144,22 @@ public class PlayerControlls : MonoBehaviour {
     }
 
     void pause() {
+        isPaused = true;
         isHurtable = false;
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         autoMove = false;
     }
 
     void unPause() {
+        isPaused = false;
         isHurtable = true;
         unfreezeAllAxis();
         autoMove = true;
+    }
+
+    public void increaseFirerate(float f) {
+        if (firerate >= maxFirerate) { 
+            firerate = firerate * f;
+        }
     }
 }
