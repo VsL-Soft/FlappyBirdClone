@@ -7,12 +7,19 @@ public class GuiSkript : MonoBehaviour {
     public float sizeOfHearts = 40;
     public float positionOfHearts = 10;
     public GUIStyle counterStyle;
-    GameObject player;
+    private GameObject player;
+    private GameObject gm;
+    public Texture2D pauseImage;
+    public Texture2D playImage;
+    private bool isPause;
+    public GUIStyle pauseButtonStyle;
+    public float sizeOfPauseButton;
 
     // Use this for initialization
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
-
+        gm = GameObject.FindGameObjectWithTag("GM");
+        isPause = false;
     }
 	
 	// Update is called once per frame
@@ -25,5 +32,23 @@ public class GuiSkript : MonoBehaviour {
             GUI.Label(new Rect(positionOfHearts + (sizeOfHearts * i), positionOfHearts, sizeOfHearts, sizeOfHearts), heart);
         }
         GUI.Label(new Rect(positionOfHearts + 10, positionOfHearts + sizeOfHearts, sizeOfHearts * 4, sizeOfHearts), player.GetComponent<PlayerControlls>().counter.ToString(), counterStyle);
+        if (isPause) {
+            if (GUI.Button(new Rect(Screen.width - positionOfHearts - sizeOfPauseButton, positionOfHearts, sizeOfPauseButton, sizeOfPauseButton), playImage, pauseButtonStyle)) {
+                gm.SendMessage("unPauseTheGame");
+           }
+        }
+        else {
+            if (GUI.Button(new Rect(Screen.width - positionOfHearts - sizeOfPauseButton, positionOfHearts, sizeOfPauseButton, sizeOfPauseButton), pauseImage, pauseButtonStyle)) {
+                gm.SendMessage("pauseTheGame");
+            }
+        }
+    }
+
+    public void pause() {
+        isPause = true;
+    }
+
+    public void unPause() {
+        isPause = false;
     }
 }

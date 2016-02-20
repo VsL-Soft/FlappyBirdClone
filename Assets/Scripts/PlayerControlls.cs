@@ -36,7 +36,6 @@ public class PlayerControlls : MonoBehaviour {
     void Start () {
         PlayAgainButton.gameObject.SetActive(false);
         MainManuButton.gameObject.SetActive(false);
-        Invoke("unfreezeAllAxis", 3);
         lives = 3;
         basicFirerate = firerate;
         fireRateTimer = firerate;

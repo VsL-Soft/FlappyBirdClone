@@ -49,6 +49,7 @@ public class GameMasterScript : MonoBehaviour {
             go.SendMessage("pause", SendMessageOptions.DontRequireReceiver);
         }
         isPaused = true;
+        
     }
 
     public void unPauseTheGame() {
