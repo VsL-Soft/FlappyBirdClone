@@ -41,10 +41,10 @@ public class FlappyBirdMode : MonoBehaviour {
                 //TODO push player towords center
 
             }
-            usedTimer -= Time.deltaTime;
             if (spawnObjects) {
                 spawnObsticle();
             }
+            usedTimer -= Time.deltaTime;
         }
 	}
 
