@@ -19,6 +19,7 @@ public class PlayerControlls : MonoBehaviour {
     public float basicFirerate = 0.5f; // Firerate in seconds
     public float firerate;
     public float maxFirerate = 0.1f;
+    public int firerateCounter = 1;
 
     public int lives;
     public int maxLives = 10;
@@ -159,6 +160,7 @@ public class PlayerControlls : MonoBehaviour {
     public void increaseFirerate(float f) {
         if (firerate >= maxFirerate) { 
             firerate = firerate * f;
+            firerateCounter++;
         }
     }
 }
