@@ -48,9 +48,9 @@ public class PlayerControlls : MonoBehaviour {
         handleAutoMove();
 
         if(GetComponent<Rigidbody2D>().velocity.y > maxYSpeed) {
-            GetComponent<Rigidbody2D>().velocity = Vector3.up * maxYSpeed;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, maxYSpeed);
         }else if(GetComponent<Rigidbody2D>().velocity.y < -1.5*maxYSpeed) {
-            GetComponent<Rigidbody2D>().velocity = Vector3.up * -1.5f*maxYSpeed;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x,-1.5f*maxYSpeed);
         }
     }
     // Update is called once per frame
@@ -89,13 +89,13 @@ public class PlayerControlls : MonoBehaviour {
     // handles if there is autoscrolling and how it works
     void handleAutoMove() {
         if (autoMove && moveRight) {
-            transform.Translate(Vector3.right * autoscrollSpeed * Time.deltaTime);
+            transform.Translate(new Vector3 (autoscrollSpeed * Time.deltaTime, 0 , 0));
             transform.localScale = new Vector3(transform.localScale.y, 1, transform.localScale.z);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(1, GetComponent<Rigidbody2D>().velocity.y);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(autoscrollSpeed, GetComponent<Rigidbody2D>().velocity.y);
         } else if (autoMove && !moveRight) {
-            transform.Translate(Vector3.left * autoscrollSpeed * Time.deltaTime);
+            transform.Translate(new Vector3 (-autoscrollSpeed * Time.deltaTime, 0 , 0));
             transform.localScale = new Vector3(transform.localScale.y, -1, transform.localScale.z);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(-autoscrollSpeed, GetComponent<Rigidbody2D>().velocity.y);
         }
     }
 
@@ -104,7 +104,7 @@ public class PlayerControlls : MonoBehaviour {
     }
 
     void jump(float power) {
-        GetComponent<Rigidbody2D>().velocity = new Vector2( 0, 1 * maxYSpeed);
+        GetComponent<Rigidbody2D>().velocity = new Vector2( 1, 1 * maxYSpeed);
         AudioSource.PlayClipAtPoint(jumpingSound, this.transform.position);
     }
 

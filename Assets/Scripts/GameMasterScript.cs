@@ -34,15 +34,6 @@ public class GameMasterScript : MonoBehaviour {
         }
 	}
 
-    public void setGameMode(GameMode g) {
-        switch (g) {
-            case GameMode.FLAPPYMODE:
-                activeGameModePrefab = (GameObject)Instantiate(flappyBirdModePrefab, Vector3.zero, new Quaternion());
-                activeGameModePrefab.transform.SetParent(this.transform);
-                break;
-        }
-    }
-
     public void pauseTheGame() {
         Object[] objects = FindObjectsOfType(typeof(GameObject));
         foreach (GameObject go in objects) {
@@ -77,22 +68,21 @@ public class GameMasterScript : MonoBehaviour {
         
     }
 
-    public void startEndlessMode() {
-        setGameMode(GameMode.FLAPPYMODE);
-    }
-
-    public void restartMode() {
-        switch (currentGamemode) {
-            case GameMode.FLAPPYMODE:
-            activeGameModePrefab = null;
-            setGameMode(GameMode.FLAPPYMODE);
-            break;
-            case GameMode.MAINMENU:
-            break;
-        }
-    }
 
     public void exitGame() {
         Application.Quit();
+    }
+
+    void OnLevelWasLoaded(int level) {
+        if (level == 1) { // Endlessmode
+            Destroy(activeGameModePrefab);
+            activeGameModePrefab = (GameObject)Instantiate(flappyBirdModePrefab, Vector3.zero, new Quaternion());
+            activeGameModePrefab.transform.SetParent(this.transform);
+            currentGamemode = GameMode.FLAPPYMODE;
+        } else if (level == 0) {//Main menu
+            Destroy(activeGameModePrefab);
+            activeGameModePrefab = null;
+            currentGamemode = GameMode.MAINMENU;
+        }
     }
 }
