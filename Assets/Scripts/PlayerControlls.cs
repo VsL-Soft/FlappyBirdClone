@@ -2,6 +2,10 @@
 using System.Collections;
 using UnityEngine.UI;
 
+public enum BulletType {
+    CLASSICBULLET, LASER
+}
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControlls : MonoBehaviour {
 
@@ -28,6 +32,7 @@ public class PlayerControlls : MonoBehaviour {
     public GameObject bullet;
     public Button PlayAgainButton;
     public Button MainManuButton;
+    public BulletType bulletType;
 
     public AudioClip jumpingSound;
     //Score
