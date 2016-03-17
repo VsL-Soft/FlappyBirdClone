@@ -10,7 +10,9 @@ public class GameMasterScript : MonoBehaviour {
     public GameMode currentGamemode;
     public GameObject flappyBirdModePrefab;
     private GameObject activeGameModePrefab;
+    public GameObject LevelLoader;
     private bool isPaused;
+    private float timer = 0;
 
     // saves the object from beeing destroyed on loading another scene
     void Awake() {
@@ -20,7 +22,6 @@ public class GameMasterScript : MonoBehaviour {
     void Start () {
 	    player = GameObject.FindGameObjectWithTag("Player");
         currentGamemode = GameMode.MAINMENU;
-        //setGameMode(GameMode.FLAPPYMODE);
         isPaused = false;
 	}
 	
@@ -32,6 +33,8 @@ public class GameMasterScript : MonoBehaviour {
             case GameMode.MAINMENU:
             break;
         }
+
+        timer += Time.deltaTime;
 	}
 
     public void pauseTheGame() {
@@ -52,11 +55,13 @@ public class GameMasterScript : MonoBehaviour {
     }
 
     public void loadLevel(string level) {
-        SceneManager.LoadScene(level);
+        GameObject loader = Instantiate(LevelLoader);
+        loader.SendMessage("loadLevel", level);
     }
 
-    public void loadLevel(int id) {
-        SceneManager.LoadScene(id);
+    public void loadLevel(int level) {
+        GameObject loader = Instantiate(LevelLoader);
+        loader.SendMessage("loadLevel", level);
     }
 
     public void pauseButten() {
