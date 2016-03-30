@@ -114,16 +114,6 @@ public class PlayerControlls : MonoBehaviour {
     }
 
 
-    void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "FlappyObsticle" || other.tag == "Enemy") {
-            reduceLive(1);
-        }
-        if (other.tag == "Counter" && !isDead) {
-            counter++;
-        }
-
-    }
-
     void reduceLive(int amount) {
         if (isHurtable) {
             lives -= amount;
@@ -167,5 +157,23 @@ public class PlayerControlls : MonoBehaviour {
             firerate = firerate * f;
             firerateCounter++;
         }
+    }
+    //increases the points by number x
+    public void increaseCounter(int x) {
+        counter += x;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "FlappyObsticle" || other.tag == "Enemy") {
+            reduceLive(1);
+        }
+        if (other.tag == "Counter" && !isDead) {
+            counter++;
+        }
+
     }
 }
