@@ -66,7 +66,7 @@ public class FlappyBirdMode : MonoBehaviour {
             }
             r = Random.value;
             if (r >= 0.2f && r <= 0.85f) {
-                r = Random.RandomRange(1.0f, 8.0f);
+                r = Random.Range(1.0f, 8.0f);
                 GameObject e = (GameObject)Instantiate(enemy, new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
             }
             usedTimer = timer;

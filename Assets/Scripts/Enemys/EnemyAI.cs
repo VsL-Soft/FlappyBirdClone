@@ -17,9 +17,9 @@ public class EnemyAI : MonoBehaviour {
     // Use this for initialization
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
-        live = live + live * player.GetComponent<PlayerControlls>().getCounter()/100f;
+        live = live + (live * player.GetComponent<PlayerControlls>().getCounter()/100f);
         isPause = false;
-        soundTimer = Random.RandomRange(3f, 8f);
+        soundTimer = Random.Range(3f, 8f);
     }
 
     // Update is called once per frame
