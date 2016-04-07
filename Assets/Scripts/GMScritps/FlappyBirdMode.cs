@@ -15,7 +15,7 @@ public class FlappyBirdMode : MonoBehaviour {
 
     public GameObject obsticle;
     public GameObject player;
-    public GameObject enemy;
+    public GameObject[] enemy;
 
 
 	// Use this for initialization
@@ -67,7 +67,11 @@ public class FlappyBirdMode : MonoBehaviour {
             r = Random.value;
             if (r >= 0.2f && r <= 0.85f) {
                 r = Random.Range(1.0f, 8.0f);
-                GameObject e = (GameObject)Instantiate(enemy, new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
+                GameObject e = (GameObject)Instantiate(enemy[0], new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
+            }
+            if (r >= 0.7f && r <= 1f) {
+                r = Random.Range(1.0f, 8.0f);
+                GameObject e = (GameObject)Instantiate(enemy[1], new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
             }
             usedTimer = timer;
         }

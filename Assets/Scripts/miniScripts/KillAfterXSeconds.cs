@@ -8,7 +8,7 @@ public class KillAfterXSeconds : MonoBehaviour {
 	void Update () {
         deadAfterXSeconds -= Time.deltaTime;
         if (deadAfterXSeconds <= 0) {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 	}
 }

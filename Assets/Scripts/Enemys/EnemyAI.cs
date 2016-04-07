@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum AIType{
+    CHASE,DISTANCEANDSHOOT
+}
 public class EnemyAI : MonoBehaviour {
+    public AIType ai;
     private GameObject player;
     public GameObject attackSpeedBuff;
     public GameObject onDeathParticles;
@@ -11,9 +15,18 @@ public class EnemyAI : MonoBehaviour {
     public GameObject[] dropableItems;
     public float speed = 1.5f;
     public float live = 20;
+    [Range(0f, 1f)]
     public float dropChance = 0.3f; // dropchance ( Value between 0.0f - 1.0f)
     public int pointsWorth = 1;
     public float soundTimer;
+
+    //DISTANCEANDSHOOT variablen
+    public float distanceToPlayer = 2f;
+    public float fireRate = 0.5f; //per second
+    private float fireRateTimer = 0;
+    private bool moveUp = true;
+    public GameObject shot;
+
     // Use this for initialization
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -24,16 +37,51 @@ public class EnemyAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        soundTimer -= Time.deltaTime;
         if (!isPause) {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-            neutralizeVelocity();
-        }
-        if (soundTimer <= 0) {
-            soundTimer = Random.Range(3f, 8f);
-            int r = Random.Range(0, idleSound.Length);
-            Debug.Log(idleSound.Length);
-            AudioSource.PlayClipAtPoint(idleSound[r], transform.position);
+            soundTimer -= Time.deltaTime;
+
+            switch (ai) {
+                case AIType.CHASE:
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+                    neutralizeVelocity();
+                    break;
+
+
+                case AIType.DISTANCEANDSHOOT:
+                    fireRateTimer -= Time.deltaTime;
+                    if (transform.position.x <= player.transform.position.x + distanceToPlayer) {
+                        transform.position = new Vector3(player.transform.position.x + distanceToPlayer,transform.position.y,transform.position.z);
+                    }
+                    if (moveUp) {
+                        if (transform.position.y <= 2) {
+                            transform.position = new Vector2(transform.position.x, transform.position.y + speed * Time.deltaTime);
+                        } else {
+                            moveUp = !moveUp;
+                        }
+                    } else {
+                        if (transform.position.y >= -2) {
+                            transform.position = new Vector2(transform.position.x, transform.position.y - speed * Time.deltaTime);
+                        } else {
+                            moveUp = !moveUp;
+                        }
+                    }
+                    if (fireRateTimer <= 0) {
+                        fireRateTimer = fireRate;
+                        Instantiate(shot, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 0, 0));
+                    }
+                    break;
+
+
+                default:
+                    Debug.LogWarning("Unknown AI Type");
+                    break;
+            }
+
+            if (soundTimer <= 0) {
+                soundTimer = Random.Range(3f, 8f);
+                int r = Random.Range(0, idleSound.Length);
+                AudioSource.PlayClipAtPoint(idleSound[r], transform.position);
+            }
         }
     }
 
@@ -42,7 +90,7 @@ public class EnemyAI : MonoBehaviour {
     public void getDamage(float dmg) {
         this.live -= dmg;
         if (live <= 0) {
-            Instantiate(onDeathParticles, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 180, 0));
+            Instantiate(onDeathParticles, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
             AudioSource.PlayClipAtPoint(onDeathSound, transform.position);
             foreach(GameObject o in dropableItems) {
                 if(Random.value < dropChance) {
