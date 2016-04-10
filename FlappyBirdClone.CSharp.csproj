@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\LineRendererScript.cs" />
+    <Compile Include="Assets\MoveTowardsPlayer.cs" />
+    <Compile Include="Assets\MusicManagerScript.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Scripts\Enemys\EnemyAI.cs" />
     <Compile Include="Assets\Scripts\GMScritps\Fading.cs" />
