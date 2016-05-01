@@ -23,7 +23,9 @@ public class PlayerControlls : MonoBehaviour {
     public float firerate;
     public float maxFirerate = 0.1f;
     public int firerateCounter = 1;
-    public float laserPower = 0.5f;
+    public float laserPower = 15f;
+    public int laserCounter = 1;
+
 
     public int lives;
     public int maxLives = 10;
@@ -127,7 +129,7 @@ public class PlayerControlls : MonoBehaviour {
                     if (hit.collider != null) {
                         if (hit.collider.tag == "Enemy" || hit.collider.tag == "FlappyObsticle" || hit.collider.tag == "Player") {
                             if (hit.collider.tag == "Enemy") {
-                                hit.transform.SendMessage("getDamage", laserPower);
+                                hit.transform.SendMessage("getDamage", laserPower * Time.deltaTime);
                             }
                             Vector3[] points = { this.myPos, hit.point };
                             lineRenderer.SetPositions(points);
@@ -217,6 +219,14 @@ public class PlayerControlls : MonoBehaviour {
             firerateCounter++;
         }
     }
+
+    public void increaseLaserPower(float f) {
+        if(laserCounter < 20) {
+            laserPower = laserPower * f;
+            laserCounter++;
+        }
+    }
+
     //increases the points by number x
     public void increaseCounter(int x) {
         counter += x;
@@ -224,6 +234,21 @@ public class PlayerControlls : MonoBehaviour {
 
     public int getCounter() {
         return counter;
+    }
+
+    public int getWeaponBuffCounter() {
+        switch (bulletType) {
+            case BulletType.CLASSICBULLET:
+                return firerateCounter;
+            case BulletType.LASER:
+                return laserCounter;
+            default: Debug.Log("Weapon Counter Not Yet Implemented");
+                return -1;
+        }
+    }
+
+    public void setWeapon(BulletType weapon) {
+        bulletType = weapon;
     }
 
     void OnTriggerEnter2D(Collider2D other) {

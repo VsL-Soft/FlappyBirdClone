@@ -116,6 +116,12 @@ public class EnemyAI : MonoBehaviour {
         isPause = false;
     }
 
+    public int getWeaponPowerupCounter() {
+
+
+        return 0;
+    }
+
     void OnCollisionStay2D(Collision2D coll) {
         if (coll.gameObject.tag == "Player") {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(150, 10.5f));

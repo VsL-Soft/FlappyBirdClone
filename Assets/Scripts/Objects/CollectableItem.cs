@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 public enum itemType{
-    HEART,FIRERATE
+    HEART,FIRERATE,LASERPOWER,LASER,BULLET
 }
 
 public class CollectableItem : MonoBehaviour {
     public int increaseLiveBy = 0;
     public float increaseFirerate = 1.0f;
+    public float increaseLaserDamage = 1.0f;
     public AudioClip soundAponCollection;
     public itemType thisItemType;
 	// Use this for initialization
@@ -26,8 +27,22 @@ public class CollectableItem : MonoBehaviour {
                 case itemType.FIRERATE:
                     other.SendMessage("increaseFirerate", increaseFirerate);
                 break;
+                case itemType.LASERPOWER:
+                    other.SendMessage("increaseLaserPower", increaseLaserDamage);
+                    break;
+                case itemType.BULLET:
+                    other.SendMessage("setWeapon", BulletType.CLASSICBULLET);
+                    break;
+                case itemType.LASER:
+                    other.SendMessage("setWeapon", BulletType.LASER);
+                    break;
+                default:
+                    Debug.Log("Collectible ItemType not yet implementet");
+                    break;
             }
-            AudioSource.PlayClipAtPoint(soundAponCollection, transform.position);
+            if (soundAponCollection != null) {
+                AudioSource.PlayClipAtPoint(soundAponCollection, transform.position);
+            }
             Destroy(this.gameObject);
         }
     }

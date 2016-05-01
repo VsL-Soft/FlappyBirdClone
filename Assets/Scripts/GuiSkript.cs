@@ -6,6 +6,7 @@ public class GuiSkript : MonoBehaviour {
 
     public Texture2D heart;
     public Texture2D firerateIcon;
+    public Texture2D laserIcon;
     public Texture2D box;
     public Texture2D unusedBuff;
     public Texture2D usedBuff;
@@ -41,16 +42,19 @@ public class GuiSkript : MonoBehaviour {
         //Bullet Stuff
         switch(player.GetComponent<PlayerControlls>().bulletType) {
             case BulletType.CLASSICBULLET:
-            GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), firerateIcon);
-            break;
+                GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), firerateIcon);
+                break;
+            case BulletType.LASER:
+                GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), laserIcon);
+                break;
             default:// Debug.Log("Not implemented");
             break;
         }
         GUI.Label(new Rect(positionOfObjects * 2f + sizeOfObject / 4, positionOfObjects + sizeOfObject, sizeOfObject * 5, sizeOfObject), box);
-        for (int i = 0; i < player.GetComponent<PlayerControlls>().firerateCounter; i++) {
+        for (int i = 0; i < player.GetComponent<PlayerControlls>().getWeaponBuffCounter(); i++) {
             GUI.Label(new Rect((positionOfObjects * 2f + sizeOfObject / 5) + (sizeOfObject / 5 * (i + 1)), positionOfObjects + sizeOfObject, sizeOfObject / 5, sizeOfObject), usedBuff);
         }
-        for (int i = player.GetComponent<PlayerControlls>().firerateCounter; i < 20; i++) {
+        for (int i = player.GetComponent<PlayerControlls>().getWeaponBuffCounter(); i < 20; i++) {
             GUI.Label(new Rect((positionOfObjects * 2f + sizeOfObject / 5) + (sizeOfObject / 5 * (i + 1)), positionOfObjects + sizeOfObject, sizeOfObject / 5, sizeOfObject), unusedBuff);
         }
         //Counter
