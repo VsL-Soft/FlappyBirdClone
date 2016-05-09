@@ -8,6 +8,160 @@ public enum BulletType {
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControlls : MonoBehaviour {
 
+    public float pointCounter = 0;
+
+    public bool isDead = false;
+    public bool autoMove = true;
+    public bool moveRight = true;
+    public bool isHurtable = true;
+    private bool isPaused;
+
+    public float timeNotHurtable = 2; // how long the player is invincible after a hit in seconds
+    public float autoscrollSpeed = 0.5f; //units per second
+    public float jumpPower = 45000;
+    public float maxYSpeed = 5;
+    public int upgradeCounts = 0;
+    public int maxUpgrades = 18;
+    public int lives;
+    public int maxLives = 10;
+
+    public GameObject weapon;
+    private IWeapon weapScript;
+
+    public AudioClip jumpingSound;
+
+    // Use this for initialization
+    void Start() {
+        isPaused = false;
+        weapScript = weapon.GetComponent<IWeapon>();
+    }
+
+    // Put Physics related shit here
+    void FixedUpdate() {
+        handleAutoMove();
+
+        if (GetComponent<Rigidbody2D>().velocity.y > maxYSpeed) {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, maxYSpeed);
+        } else if (GetComponent<Rigidbody2D>().velocity.y < -1.5 * maxYSpeed) {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, -1.5f * maxYSpeed);
+        }
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+        if (!isDead) {
+            handleInput();
+        }
+        timeNotHurtable -= Time.deltaTime;
+
+        if (timeNotHurtable <= 0) {
+            isHurtable = true;
+            GetComponent<Animator>().SetBool("isHurtable", true);
+        }
+    }
+
+    //handles all input
+    void handleInput() {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(1)) {
+            jump(jumpPower);
+        }
+        if (Input.GetMouseButton(0) && !isPaused) {
+            weapScript.fire();
+        }
+    }
+
+    // handles if there is autoscrolling and how it works
+    void handleAutoMove() {
+        if (autoMove && moveRight) {
+            transform.Translate(new Vector3(autoscrollSpeed * Time.deltaTime, 0, 0));
+            transform.localScale = new Vector3(transform.localScale.y, 1, transform.localScale.z);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(autoscrollSpeed, GetComponent<Rigidbody2D>().velocity.y);
+        } else if (autoMove && !moveRight) {
+            transform.Translate(new Vector3(-autoscrollSpeed * Time.deltaTime, 0, 0));
+            transform.localScale = new Vector3(transform.localScale.y, -1, transform.localScale.z);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(-autoscrollSpeed, GetComponent<Rigidbody2D>().velocity.y);
+        }
+    }
+
+    void unfreezeAllAxis() {
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+    }
+
+    void jump(float power) {
+        GetComponent<Rigidbody2D>().velocity = new Vector2(1, 1 * maxYSpeed);
+        AudioSource.PlayClipAtPoint(jumpingSound, this.transform.position);
+    }
+
+    void reduceLive(int amount) {
+        if (isHurtable) {
+            lives -= amount;
+            GetComponent<Animator>().SetTrigger("hurt");
+            GetComponent<Animator>().SetBool("isHurtable", false);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            if (lives <= 0) {
+                GetComponent<Animator>().SetBool("dead", true);
+                isDead = true;
+                GameObject.FindGameObjectWithTag("GM").GetComponent<GameMasterScript>().pauseTheGame();
+            }
+            timeNotHurtable = 2;
+            isHurtable = false;
+        }
+    }
+
+    public void increaseLive(int amount) {
+        if (lives < maxLives) {
+            lives += amount;
+        }
+    }
+
+    void pause() {
+        isPaused = true;
+        isHurtable = false;
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        autoMove = false;
+    }
+
+    void unPause() {
+        isPaused = false;
+        isHurtable = true;
+        unfreezeAllAxis();
+        autoMove = true;
+    }
+
+    //increases the points by number x
+    public void increasePointCounter(float x) {
+        pointCounter += x;
+    }
+
+    public float getPointCounter() {
+        return pointCounter;
+    }
+
+    //returns true if the operation was succesfull and false otherwise
+    public bool setWeapon(GameObject w) {
+        if (w.GetComponent<IWeapon>() == null) {
+            Debug.LogError("The weapon you try to attach does not implement the IWeapon.");
+                return false;
+        } else {
+            weapon = w;
+            return true;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "FlappyObsticle" || other.tag == "Enemy") {
+            reduceLive(1);
+        }
+        if (other.tag == "Counter" && !isDead) {
+            pointCounter++;
+        }
+
+    }
+}
+/*
+public class PlayerControlls : MonoBehaviour {
+
     public bool autoMove = true;
     public bool moveRight = true;
     public bool isDead = false;
@@ -22,11 +176,9 @@ public class PlayerControlls : MonoBehaviour {
     public float basicFirerate = 0.5f; // Firerate in seconds
     public float firerate;
     public float maxFirerate = 0.1f;
-    public int firerateCounter = 1;
     public float laserPower = 15f;
+    public int firerateCounter = 1;
     public int laserCounter = 1;
-
-
     public int lives;
     public int maxLives = 10;
 
@@ -236,17 +388,6 @@ public class PlayerControlls : MonoBehaviour {
         return counter;
     }
 
-    public int getWeaponBuffCounter() {
-        switch (bulletType) {
-            case BulletType.CLASSICBULLET:
-                return firerateCounter;
-            case BulletType.LASER:
-                return laserCounter;
-            default: Debug.Log("Weapon Counter Not Yet Implemented");
-                return -1;
-        }
-    }
-
     public void setWeapon(BulletType weapon) {
         bulletType = weapon;
     }
@@ -261,3 +402,4 @@ public class PlayerControlls : MonoBehaviour {
 
     }
 }
+*/
