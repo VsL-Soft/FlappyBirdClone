@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public enum BulletType {
-    CLASSICBULLET, LASER
-}
+
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControlls : MonoBehaviour {
@@ -21,7 +19,7 @@ public class PlayerControlls : MonoBehaviour {
     public float jumpPower = 45000;
     public float maxYSpeed = 5;
     public int upgradeCounts = 0;
-    public int maxUpgrades = 18;
+    public int maxUpgrades = 20;
     public int lives;
     public int maxLives = 10;
 
@@ -67,7 +65,7 @@ public class PlayerControlls : MonoBehaviour {
             jump(jumpPower);
         }
         if (Input.GetMouseButton(0) && !isPaused) {
-            weapScript.fire();
+            weapScript.fire(transform.position);
         }
     }
 
