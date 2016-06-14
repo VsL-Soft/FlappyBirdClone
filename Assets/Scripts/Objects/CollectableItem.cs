@@ -25,10 +25,16 @@ public class CollectableItem : MonoBehaviour {
                     other.SendMessage("increaseLive", increaseLiveBy);
                 break;
                 case itemType.FIRERATE:
-                    other.SendMessage("increaseFirerate", increaseFirerate);
+                    if (other.GetComponent<PlayerControlls>().getWeaponType() == BulletType.CLASSICBULLET) {
+                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade(increaseFirerate);
+                    }
+                    //other.SendMessage("increaseFirerate", increaseFirerate);
                 break;
                 case itemType.LASERPOWER:
-                    other.SendMessage("increaseLaserPower", increaseLaserDamage);
+                    if (other.GetComponent<PlayerControlls>().getWeaponType() == BulletType.LASER) {
+                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade(increaseLaserDamage);
+                    }
+                    //other.SendMessage("increaseLaserPower", increaseLaserDamage);
                     break;
                 case itemType.BULLET:
                     other.SendMessage("setWeapon", BulletType.CLASSICBULLET);

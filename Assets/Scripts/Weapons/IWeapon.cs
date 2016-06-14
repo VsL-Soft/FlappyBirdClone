@@ -7,11 +7,12 @@ public enum BulletType {
 public abstract class IWeapon: MonoBehaviour {
 
     protected bool isPause;
+    public int upgradeCounts = 0;
 
     public BulletType bulletType;
 
-    public abstract void fire(Vector3 v);
-    public abstract void upgrade();
+    public abstract void fire();
+    public abstract void upgrade(float power);
 
     public void pause() {
         isPause = true;

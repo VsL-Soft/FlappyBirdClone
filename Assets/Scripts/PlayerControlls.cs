@@ -65,7 +65,7 @@ public class PlayerControlls : MonoBehaviour {
             jump(jumpPower);
         }
         if (Input.GetMouseButton(0) && !isPaused) {
-            weapScript.fire(transform.position);
+            weapScript.fire();
         }
     }
 
@@ -145,6 +145,10 @@ public class PlayerControlls : MonoBehaviour {
             weapon = w;
             return true;
         }
+    }
+
+    public BulletType getWeaponType() {
+        return weapon.GetComponent<IWeapon>().bulletType;
     }
 
     void OnTriggerEnter2D(Collider2D other) {

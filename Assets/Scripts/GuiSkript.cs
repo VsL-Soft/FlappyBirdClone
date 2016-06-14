@@ -65,7 +65,8 @@ public class GuiSkript : MonoBehaviour {
             case BulletType.LASER:
                 GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), laserIcon);
                 break;
-            default:// Debug.Log("Not implemented");
+            default:
+            Debug.Log("Weapon Type not implemented in GUI");
             break;
         }
         GUI.Label(new Rect(positionOfObjects * 2f + sizeOfObject / 4, positionOfObjects + sizeOfObject, sizeOfObject * 5, sizeOfObject), box);

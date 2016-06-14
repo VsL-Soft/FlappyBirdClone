@@ -97,7 +97,7 @@ public class EnemyAI : MonoBehaviour {
                     Instantiate(o, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 0, 0));
                 }
             }
-            player.SendMessage("increaseCounter", pointsWorth);
+            player.SendMessage("increasePointCounter", pointsWorth);
             Destroy(this.gameObject);
         }
     }
