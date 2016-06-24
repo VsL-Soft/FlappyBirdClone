@@ -57,6 +57,7 @@ public class PlayerControlls : MonoBehaviour {
             isHurtable = true;
             GetComponent<Animator>().SetBool("isHurtable", true);
         }
+        upgradeCounts = weapScript.getPowerUpCounts();
     }
 
     //handles all input
@@ -142,13 +143,15 @@ public class PlayerControlls : MonoBehaviour {
             Debug.LogError("The weapon you try to attach does not implement the IWeapon.");
                 return false;
         } else {
+
             weapon = w;
+            weapScript = weapon.GetComponent<IWeapon>();
             return true;
         }
     }
 
     public BulletType getWeaponType() {
-        return weapon.GetComponent<IWeapon>().bulletType;
+        return weapScript.getBulletType();
     }
 
     void OnTriggerEnter2D(Collider2D other) {

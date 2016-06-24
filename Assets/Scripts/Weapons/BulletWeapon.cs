@@ -5,13 +5,14 @@ using System;
 public class BulletWeapon: IWeapon {
 
     public float basicFirerate = 0.5f; // Firerate in seconds
-    public static float firerate;
+    static float firerate;
     public float maxFirerate = 0.1f;
-    public float projectileSpeed = 10f;
-    public static int firerateCounter = 1;
-    public static float fireRateTimer;
+    public float projectileSpeed = 18f;
+    static int firerateCounter = 1;
+    static float fireRateTimer;
     public GameObject bullet;
     static GameObject player;
+    static BulletType bulletType;
 
 
 
@@ -29,7 +30,6 @@ public class BulletWeapon: IWeapon {
         if (!isPause) {
             fireRateTimer -= Time.deltaTime;
         }
-        player.GetComponent<PlayerControlls>().upgradeCounts = firerateCounter;
 }
 
     public override void fire() {
@@ -56,4 +56,11 @@ public class BulletWeapon: IWeapon {
         }
     }
 
+    public override int getPowerUpCounts() {
+        return firerateCounter;
+    }
+
+    public override BulletType getBulletType() {
+        return bulletType;
+    }
 }

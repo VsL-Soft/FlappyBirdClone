@@ -58,7 +58,7 @@ public class GuiSkript : MonoBehaviour {
         //Counter
         GUI.Label(new Rect(positionOfObjects * 2f, positionOfObjects + (sizeOfObject * 2), sizeOfObject * 4, sizeOfObject), player.pointCounter.ToString(), counterStyle);
         //Bullet Stuff
-        switch(player.weapon.GetComponent<IWeapon>().bulletType) {
+        switch(player.getWeaponType()) {
             case BulletType.CLASSICBULLET:
                 GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), firerateIcon);
                 break;

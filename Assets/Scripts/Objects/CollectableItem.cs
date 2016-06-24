@@ -10,6 +10,7 @@ public class CollectableItem : MonoBehaviour {
     public float increaseLaserDamage = 1.0f;
     public AudioClip soundAponCollection;
     public itemType thisItemType;
+    public GameObject Weapon;
 	// Use this for initialization
 	void Start () {
 	
@@ -37,10 +38,10 @@ public class CollectableItem : MonoBehaviour {
                     //other.SendMessage("increaseLaserPower", increaseLaserDamage);
                     break;
                 case itemType.BULLET:
-                    other.SendMessage("setWeapon", BulletType.CLASSICBULLET);
+                    other.SendMessage("setWeapon", Weapon);
                     break;
                 case itemType.LASER:
-                    other.SendMessage("setWeapon", BulletType.LASER);
+                    other.SendMessage("setWeapon", Weapon);
                     break;
                 default:
                     Debug.Log("Collectible ItemType not yet implementet");
