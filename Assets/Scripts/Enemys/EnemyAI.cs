@@ -13,10 +13,11 @@ public class EnemyAI : MonoBehaviour {
     public AudioClip[] idleSound;
     public bool isPause;
     public GameObject[] dropableItems;
+    [Tooltip("The array size always has to be the same as the dropableItems array size ")]
+    [Range(0f, 1f)]
+    public float[] dropChance; //the dropChances for the dropableItems
     public float speed = 1.5f;
     public float live = 20;
-    [Range(0f, 1f)]
-    public float dropChance = 0.3f; // dropchance ( Value between 0.0f - 1.0f)
     public int pointsWorth = 1;
     public float soundTimer;
 
@@ -92,10 +93,12 @@ public class EnemyAI : MonoBehaviour {
         if (live <= 0) {
             Instantiate(onDeathParticles, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
             AudioSource.PlayClipAtPoint(onDeathSound, transform.position);
+            int i = 0;
             foreach(GameObject o in dropableItems) {
-                if(Random.value < dropChance) {
+                if(Random.value < dropChance[i]) {
                     Instantiate(o, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion(0, 0, 0, 0));
                 }
+                i++;
             }
             player.SendMessage("increasePointCounter", pointsWorth);
             Destroy(this.gameObject);

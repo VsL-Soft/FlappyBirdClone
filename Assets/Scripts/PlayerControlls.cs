@@ -22,6 +22,7 @@ public class PlayerControlls : MonoBehaviour {
     public int maxUpgrades = 20;
     public int lives;
     public int maxLives = 10;
+    public int collectedMoney = 0;
 
     public GameObject weapon;
     private IWeapon weapScript;
@@ -101,6 +102,7 @@ public class PlayerControlls : MonoBehaviour {
                 GetComponent<Animator>().SetBool("dead", true);
                 isDead = true;
                 GameObject.FindGameObjectWithTag("GM").GetComponent<GameMasterScript>().pauseTheGame();
+                GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManagerScript>().safePlayerState();
             }
             timeNotHurtable = 2;
             isHurtable = false;

@@ -20,7 +20,6 @@ public class GameMasterScript : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-	    player = GameObject.FindGameObjectWithTag("Player");
         currentGamemode = GameMode.MAINMENU;
         isPaused = false;
 	}
@@ -31,6 +30,9 @@ public class GameMasterScript : MonoBehaviour {
             case GameMode.FLAPPYMODE:
                 break;
             case GameMode.MAINMENU:
+            break;
+
+            default:
             break;
         }
 
@@ -64,6 +66,9 @@ public class GameMasterScript : MonoBehaviour {
         loader.SendMessage("loadLevel", level);
     }
 
+    public GameMode getCurrentGameMode() {
+        return currentGamemode;
+    }
     public void pauseButten() {
         if(isPaused) {
             unPauseTheGame();
@@ -84,7 +89,7 @@ public class GameMasterScript : MonoBehaviour {
             activeGameModePrefab = (GameObject)Instantiate(flappyBirdModePrefab, Vector3.zero, new Quaternion());
             activeGameModePrefab.transform.SetParent(this.transform);
             currentGamemode = GameMode.FLAPPYMODE;
-        } else if (level == 0) {//Main menu
+        } else if (level == 2) {//Main menu
             Destroy(activeGameModePrefab);
             activeGameModePrefab = null;
             currentGamemode = GameMode.MAINMENU;
