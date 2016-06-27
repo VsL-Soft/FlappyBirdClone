@@ -24,7 +24,8 @@ public class DataManagerScript : MonoBehaviour {
     }
 
     public int loadEndlessHighscore() {
-        return PlayerPrefs.GetInt("endlesshighscore", 0);
+        endlessHighscore = PlayerPrefs.GetInt("endlesshighscore", 0);
+        return endlessHighscore;
     }
 
     public bool safeEndlessHighscore(int value) {

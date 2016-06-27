@@ -45,12 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\DataManagerScript.cs" />
-     <Compile Include="Assets\LineRendererScript.cs" />
      <Compile Include="Assets\MoveTowardsPlayer.cs" />
      <Compile Include="Assets\MusicManagerScript.cs" />
      <Compile Include="Assets\Scripts\AudioManager.cs" />
      <Compile Include="Assets\Scripts\Camera2DFollow.cs" />
+     <Compile Include="Assets\Scripts\DataManagerScript.cs" />
      <Compile Include="Assets\Scripts\Enemys\EnemyAI.cs" />
      <Compile Include="Assets\Scripts\GMScritps\Fading.cs" />
      <Compile Include="Assets\Scripts\GMScritps\FlappyBirdCamera.cs" />
@@ -65,6 +64,7 @@
      <Compile Include="Assets\Scripts\Tiling.cs" />
      <Compile Include="Assets\Scripts\Weapons\BulletWeapon.cs" />
      <Compile Include="Assets\Scripts\Weapons\IWeapon.cs" />
+     <Compile Include="Assets\Scripts\Weapons\LaserWeapon.cs" />
      <Compile Include="Assets\Scripts\miniScripts\ChangeLevelWithFade.cs" />
      <Compile Include="Assets\Scripts\miniScripts\ChangeSceneAfterXSeconds.cs" />
      <Compile Include="Assets\Scripts\miniScripts\KillAfterXSeconds.cs" />

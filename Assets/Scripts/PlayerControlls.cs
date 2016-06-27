@@ -28,6 +28,7 @@ public class PlayerControlls : MonoBehaviour {
     private IWeapon weapScript;
 
     public AudioClip jumpingSound;
+    public AudioClip deathSound;
 
     // Use this for initialization
     void Start() {

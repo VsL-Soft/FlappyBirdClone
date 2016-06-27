@@ -9,7 +9,7 @@ public class TextChangerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         dm = GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManagerScript>();
-        value = dm.loadEndlessHighscore();
+        value = dm.getEndlessHighscore();
         GetComponent<Text>().text = "Highscore : " + value;
 	}
 	
