@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 public enum itemType{
-    HEART,FIRERATE,LASERPOWER,LASER,BULLET
+    HEART,FIRERATE,LASERPOWER,LASER,BULLET,COIN,
 }
 
 public class CollectableItem : MonoBehaviour {
@@ -11,6 +11,7 @@ public class CollectableItem : MonoBehaviour {
     public AudioClip soundAponCollection;
     public itemType thisItemType;
     public GameObject Weapon;
+    public AudioClip onCollect;
 	// Use this for initialization
 	void Start () {
 	
@@ -42,6 +43,10 @@ public class CollectableItem : MonoBehaviour {
                     break;
                 case itemType.LASER:
                     other.SendMessage("setWeapon", Weapon);
+                    break;
+                case itemType.COIN:
+                    other.SendMessage("increaseMoney", increaseLiveBy);
+                    AudioSource.PlayClipAtPoint(onCollect, transform.position);
                     break;
                 default:
                     Debug.Log("Collectible ItemType not yet implementet");

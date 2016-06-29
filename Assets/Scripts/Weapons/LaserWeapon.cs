@@ -14,6 +14,7 @@ public class LaserWeapon : IWeapon {
     public float initialLaserPower = 15f;
     static float laserPower;
     static int laserCounter = 1;
+    public AudioClip shoot;
 
     // Use this for initialization
     void Start () {
@@ -44,6 +45,9 @@ public class LaserWeapon : IWeapon {
 
 
     public override void fire() {
+        if (Input.GetKey(KeyCode.Mouse0)) {
+            AudioSource.PlayClipAtPoint(shoot, transform.position);
+        }
         if (hit.collider != null) {
             if (hit.collider.tag == "Enemy" || hit.collider.tag == "FlappyObsticle" || hit.collider.tag == "Player") {
                 if (hit.collider.tag == "Enemy") {

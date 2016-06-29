@@ -29,6 +29,7 @@ public class PlayerControlls : MonoBehaviour {
 
     public AudioClip jumpingSound;
     public AudioClip deathSound;
+    public AudioClip hitSound;
 
     // Use this for initialization
     void Start() {
@@ -105,6 +106,9 @@ public class PlayerControlls : MonoBehaviour {
                 isDead = true;
                 GameObject.FindGameObjectWithTag("GM").GetComponent<GameMasterScript>().pauseTheGame();
                 GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManagerScript>().safePlayerState();
+                AudioSource.PlayClipAtPoint(deathSound, transform.position);
+            } else {
+                AudioSource.PlayClipAtPoint(hitSound, transform.position);
             }
             timeNotHurtable = 2;
             isHurtable = false;
@@ -155,6 +159,10 @@ public class PlayerControlls : MonoBehaviour {
 
     public BulletType getWeaponType() {
         return weapScript.getBulletType();
+    }
+
+    public void increaseMoney(int amount){
+        collectedMoney += amount;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
