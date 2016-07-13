@@ -11,7 +11,6 @@ public class DataManagerScript : MonoBehaviour {
 	void Start () {
         loadEndlessHighscore();
         loadPlayerMoney();
-        Debug.Log("Endless HS : " + endlessHighscore);
 	}
 	
 	// Update is called once per frame

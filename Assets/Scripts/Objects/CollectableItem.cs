@@ -6,8 +6,6 @@ public enum itemType{
 
 public class CollectableItem : MonoBehaviour {
     public int increaseLiveBy = 0;
-    public float increaseFirerate = 1.0f;
-    public float increaseLaserDamage = 1.0f;
     public AudioClip soundAponCollection;
     public itemType thisItemType;
     public GameObject Weapon;
@@ -28,13 +26,13 @@ public class CollectableItem : MonoBehaviour {
                 break;
                 case itemType.FIRERATE:
                     if (other.GetComponent<PlayerControlls>().getWeaponType() == BulletType.CLASSICBULLET) {
-                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade(increaseFirerate);
+                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade();
                     }
                     //other.SendMessage("increaseFirerate", increaseFirerate);
                 break;
                 case itemType.LASERPOWER:
                     if (other.GetComponent<PlayerControlls>().getWeaponType() == BulletType.LASER) {
-                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade(increaseLaserDamage);
+                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade();
                     }
                     //other.SendMessage("increaseLaserPower", increaseLaserDamage);
                     break;

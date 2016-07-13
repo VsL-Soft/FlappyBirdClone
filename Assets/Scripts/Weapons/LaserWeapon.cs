@@ -14,12 +14,14 @@ public class LaserWeapon : IWeapon {
     public float initialLaserPower = 15f;
     static float laserPower;
     static int laserCounter = 1;
+    public int startupLaserPowerCounter = 1;
     public AudioClip shoot;
+    public float laserUpgradePower = 1.085f;
 
     // Use this for initialization
     void Start () {
-        laserCounter = 1;
         laserPower = initialLaserPower;
+        setLaserUpgrades(startupLaserPowerCounter);
         bulletType = BulletType.LASER;
         player = GameObject.FindGameObjectWithTag("Player");
         lr = GetComponent<LineRenderer>();
@@ -69,9 +71,17 @@ public class LaserWeapon : IWeapon {
         lr.enabled = true;
     }
 
-    public override void upgrade(float power) {
+    private void setLaserUpgrades(int n) {
+        laserCounter = 1;
+        laserPower = initialLaserPower;
+        for (int i = 1; i < n; i++) {
+            upgrade();
+        }
+    }
+
+    public override void upgrade() {
         if (laserCounter < 20) {
-            laserPower = laserPower * power;
+            laserPower = laserPower * laserUpgradePower;
             laserCounter++;
         }
     }

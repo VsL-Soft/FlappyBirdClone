@@ -4,25 +4,29 @@ using System;
 
 public class BulletWeapon: IWeapon {
 
+    
     public float basicFirerate = 0.5f; // Firerate in seconds
     static float firerate;
     public float maxFirerate = 0.1f;
     public float projectileSpeed = 18f;
     static int firerateCounter = 1;
+    public int startupFirerateCounter = 1;
     static float fireRateTimer;
     public GameObject bullet;
     static GameObject player;
     static BulletType bulletType;
+    public float firerateUpgradePower = 0.915f;
 
 
 
 
     // Use this for initialization
     void Start () {
-        bulletType = BulletType.CLASSICBULLET;
-        player = GameObject.FindGameObjectWithTag("Player");
         firerate = basicFirerate;
         fireRateTimer = firerate;
+        setFirerateUpgrades(startupFirerateCounter);
+        bulletType = BulletType.CLASSICBULLET;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 	
 	// Update is called once per frame
@@ -49,9 +53,17 @@ public class BulletWeapon: IWeapon {
             }
     }
 
-    public override void upgrade(float power) {
+    private void setFirerateUpgrades(int n) {
+        firerateCounter = 1;
+        firerate = basicFirerate;
+        for (int i = 1; i < n; i++) {
+            upgrade();
+        }
+    }
+
+    public override void upgrade() {
         if (firerate >= maxFirerate) {
-            firerate = firerate * power;
+            firerate = firerate * firerateUpgradePower;
             firerateCounter++;
         }
     }

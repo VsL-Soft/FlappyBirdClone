@@ -9,7 +9,7 @@ public abstract class IWeapon: MonoBehaviour {
     protected bool isPause;
 
     public abstract void fire();
-    public abstract void upgrade(float power);
+    public abstract void upgrade();
     public abstract int getPowerUpCounts();
     public abstract BulletType getBulletType();
 
