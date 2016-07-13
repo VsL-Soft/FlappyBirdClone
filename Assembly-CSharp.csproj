@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\miniScripts\ChangeSceneAfterXSeconds.cs" />
      <Compile Include="Assets\Scripts\miniScripts\KillAfterXSeconds.cs" />
      <Compile Include="Assets\TextChangerScript.cs" />
+     <Compile Include="Assets\UiManagerScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
