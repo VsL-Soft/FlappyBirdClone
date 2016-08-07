@@ -59,7 +59,7 @@ public class Tiling : MonoBehaviour {
 		Vector3 newPosition = new Vector3 (myTransform.position.x + spriteWidth * rightOrLeft, myTransform.position.y, myTransform.position.z);
 		// instantating our new body and storing him in a variable
 		Transform newBuddy = Instantiate (myTransform, newPosition, myTransform.rotation) as Transform;
-
+        newBuddy.GetComponent<KillAfterXSeconds>().deadAfterXSeconds = 12;
 		// if not tilable let's reverse the x size og our object to get rid of ugly seams
 		if (reverseScale == true) {
 			newBuddy.localScale = new Vector3 (newBuddy.localScale.x*-1, newBuddy.localScale.y, newBuddy.localScale.z);

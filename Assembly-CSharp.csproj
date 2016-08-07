@@ -67,7 +67,10 @@
      <Compile Include="Assets\Scripts\Weapons\LaserWeapon.cs" />
      <Compile Include="Assets\Scripts\miniScripts\ChangeLevelWithFade.cs" />
      <Compile Include="Assets\Scripts\miniScripts\ChangeSceneAfterXSeconds.cs" />
+     <Compile Include="Assets\Scripts\miniScripts\ConfirmPanelScript.cs" />
      <Compile Include="Assets\Scripts\miniScripts\KillAfterXSeconds.cs" />
+     <Compile Include="Assets\ShopContentScript.cs" />
+     <Compile Include="Assets\ShopItemScript.cs" />
      <Compile Include="Assets\TextChangerScript.cs" />
      <Compile Include="Assets\UiManagerScript.cs" />
  <Reference Include="UnityEngine.UI">
