@@ -193,13 +193,13 @@ public class PlayerControlls : MonoBehaviour {
     public float firerate;
     public float maxFirerate = 0.1f;
     public float laserPower = 15f;
-    public int firerateCounter = 1;
+    public int upgradeCounter = 1;
     public int laserCounter = 1;
     public int lives;
     public int maxLives = 10;
 
     private float fireRateTimer;
-    public GameObject bullet;
+    public GameObject rocket;
     public Button PlayAgainButton;
     public Button MainManuButton;
     public BulletType bulletType;
@@ -287,7 +287,7 @@ public class PlayerControlls : MonoBehaviour {
             switch (bulletType) {
                 case BulletType.CLASSICBULLET:
                     if (fireRateTimer <= 0) {
-                        GameObject classicProjectile = (GameObject)Instantiate(bullet, myPos, rotation);
+                        GameObject classicProjectile = (GameObject)Instantiate(rocket, myPos, rotation);
                         classicProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
                         fireRateTimer = firerate;
                     }
@@ -384,7 +384,7 @@ public class PlayerControlls : MonoBehaviour {
     public void increaseFirerate(float f) {
         if (firerate >= maxFirerate) {
             firerate = firerate * f;
-            firerateCounter++;
+            upgradeCounter++;
         }
     }
 

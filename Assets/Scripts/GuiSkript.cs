@@ -9,6 +9,7 @@ public class GuiSkript : MonoBehaviour {
     public Texture2D heart;
     public Texture2D firerateIcon;
     public Texture2D laserIcon;
+    public Texture2D rocketIcon;
     public Texture2D box;
     public Texture2D unusedBuff;
     public Texture2D usedBuff;
@@ -64,6 +65,9 @@ public class GuiSkript : MonoBehaviour {
                 break;
             case BulletType.LASER:
                 GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), laserIcon);
+                break;
+            case BulletType.ROCKET:
+                GUI.Label(new Rect(positionOfObjects * 1.5f, positionOfObjects + sizeOfObject, sizeOfObject / 4, sizeOfObject), rocketIcon);
                 break;
             default:
             Debug.Log("Weapon Type not implemented in GUI");
