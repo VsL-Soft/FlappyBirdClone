@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 public enum itemType{
-    HEART,FIRERATE,LASERPOWER,LASER,BULLET,COIN,
+    HEART,FIRERATE,LASERPOWER,LASER,BULLET,COIN,ROCKET,ROCKETPOWER
 }
 
 public class CollectableItem : MonoBehaviour {
@@ -46,6 +46,14 @@ public class CollectableItem : MonoBehaviour {
                     other.SendMessage("increaseMoney", increaseLiveBy);
                     AudioSource.PlayClipAtPoint(onCollect, transform.position);
                     break;
+                case itemType.ROCKET:
+                    other.SendMessage("setWeapon", Weapon);
+                    break;
+                case itemType.ROCKETPOWER:
+                    if (other.GetComponent<PlayerControlls>().getWeaponType() == BulletType.ROCKET) {
+                        other.GetComponent<PlayerControlls>().weapon.GetComponent<IWeapon>().upgrade();
+                    }
+                break;
                 default:
                     Debug.Log("Collectible ItemType not yet implementet");
                     break;

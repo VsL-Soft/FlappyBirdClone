@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum BulletType {
-    CLASSICBULLET, LASER
+    CLASSICBULLET, LASER, ROCKET
 }
 public abstract class IWeapon: MonoBehaviour {
 
