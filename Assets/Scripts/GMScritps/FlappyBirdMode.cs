@@ -58,18 +58,18 @@ public class FlappyBirdMode : MonoBehaviour {
         if(usedTimer <= 0) {
             float r = Random.value;
             if(r >= 0.5f) {
-                GameObject projectile = (GameObject)Instantiate(obsticle, new Vector3(player.transform.position.x + 20, bottomBorder + 3.3f, player.transform.position.z), new Quaternion());
+                Instantiate(obsticle, new Vector3(player.transform.position.x + 20, bottomBorder + 3.3f, player.transform.position.z), new Quaternion());
             } else {
-                GameObject projectile = (GameObject)Instantiate(obsticle, new Vector3(player.transform.position.x + 20, topBorder - 3.3f, player.transform.position.z), new Quaternion(0,0,180,0));
+                Instantiate(obsticle, new Vector3(player.transform.position.x + 20, topBorder - 3.3f, player.transform.position.z), new Quaternion(0,0,180,0));
             }
             r = Random.value;
             if (r >= 0.2f && r <= 0.85f) {
                 r = Random.Range(1.0f, 8.0f);
-                GameObject e = (GameObject)Instantiate(enemy[0], new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
+                Instantiate(enemy[0], new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
             }
             if (r >= 0.7f && r <= 1f) {
                 r = Random.Range(1.0f, 8.0f);
-                GameObject e = (GameObject)Instantiate(enemy[1], new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
+                Instantiate(enemy[1], new Vector3(player.transform.position.x + 20, bottomBorder + r, player.transform.position.z), new Quaternion());
             }
             usedTimer = timer;
         }

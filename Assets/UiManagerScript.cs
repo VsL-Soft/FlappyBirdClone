@@ -21,8 +21,10 @@ public class UiManagerScript : MonoBehaviour {
 
     public void switchCategory(Category c) {
         currentCategory = c;
+        /*
         foreach (GameObject b in itemButtons) {
 
         }
+         */
     }
 }
