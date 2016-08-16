@@ -4,6 +4,7 @@ using System.Collections;
 public class DataManagerScript : MonoBehaviour {
     private int endlessHighscore;
     private int playerMoney;
+
     void Awake() {
         DontDestroyOnLoad(transform.gameObject);
     }
@@ -11,6 +12,10 @@ public class DataManagerScript : MonoBehaviour {
 	void Start () {
         loadEndlessHighscore();
         loadPlayerMoney();
+        if (!PlayerPrefs.HasKey("shopInitialized")) {
+            PlayerPrefs.SetInt("shopInitialized", 1);
+            resetShop();
+        }
 	}
 	
 	// Update is called once per frame
@@ -64,5 +69,26 @@ public class DataManagerScript : MonoBehaviour {
             break;
         }
     }
+    public void resetShop() {
+        PlayerPrefs.SetInt("GenerelPowerLvl1", 0);
+        PlayerPrefs.SetInt("GenerelPowerLvl2", 0);
+        PlayerPrefs.SetInt("GenerelPowerLvl3", 0);
+        //-------------removing all upgrade from the player---------------------
+        PlayerPrefs.SetFloat("increasedPower", 0);
+    }
 
 }
+//DATABASE: (lol wer muss schon sql machen hueueueue)
+/*
+ *  Player:
+ *      PlayerPrefs.GetInt("endlesshighscore", 0)
+ *      PlayerPrefs.GetInt("playermoney", 0)
+ *      PlayerPrefs.GetFloat("increasedPower", 0)
+ *  
+ * --------------------------------------------------------------------------------------------------------------------------------------
+ * 
+ * Shop:
+ *      PlayerPrefs.SetInt("GenerelPowerLvl1", 0);
+ *      PlayerPrefs.SetInt("GenerelPowerLvl2", 0);
+ *      PlayerPrefs.SetInt("GenerelPowerLvl3", 0);
+*/

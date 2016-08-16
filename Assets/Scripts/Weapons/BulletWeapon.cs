@@ -36,17 +36,18 @@ public class BulletWeapon: IWeapon {
         }
 }
 
-    public override void fire() {
+    public override void fire(float extraDmg) {
 
         if (!isPause) {
-            Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-            Vector2 myPos =  new Vector2(player.transform.position.x, player.transform.position.y);
-            Vector2 direction = target - myPos;
-            direction.Normalize();
-            Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-                if (fireRateTimer <= 0) {
+            if (fireRateTimer <= 0) {
+                    Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+                    Vector2 myPos =  new Vector2(player.transform.position.x, player.transform.position.y);
+                    Vector2 direction = target - myPos;
+                    direction.Normalize();
+                    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
                     GameObject classicProjectile = (GameObject)Instantiate(bullet, myPos, rotation);
                     classicProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+                    classicProjectile.GetComponent<BulletScript>().dmg *= (1 + extraDmg);
                     fireRateTimer = firerate;
                 }
 

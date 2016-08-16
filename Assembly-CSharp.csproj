@@ -72,6 +72,8 @@
      <Compile Include="Assets\Scripts\miniScripts\ChangeSceneAfterXSeconds.cs" />
      <Compile Include="Assets\Scripts\miniScripts\ConfirmPanelScript.cs" />
      <Compile Include="Assets\Scripts\miniScripts\KillAfterXSeconds.cs" />
+     <Compile Include="Assets\Scripts\miniScripts\ShopScripts\GenerelPowerShopScript.cs" />
+     <Compile Include="Assets\Scripts\miniScripts\ShopScripts\IShopItemEffect.cs" />
      <Compile Include="Assets\ShopContentScript.cs" />
      <Compile Include="Assets\ShopItemScript.cs" />
      <Compile Include="Assets\TextChangerScript.cs" />

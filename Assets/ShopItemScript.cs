@@ -6,6 +6,7 @@ public class ShopItemScript : MonoBehaviour {
     public Color highlighted;
     public Color notHighlighted;
     public bool isFocused;
+    public int price;
 	// Use this for initialization
 	void Start () {
         isFocused = false;

@@ -41,7 +41,7 @@ public class RocketWeapon : IWeapon {
         }
     }
 
-    public override void fire() {
+    public override void fire(float extraDmg) {
 
         if (!isPause) {
             Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
@@ -52,7 +52,7 @@ public class RocketWeapon : IWeapon {
             if (fireRateTimer <= 0) {
                 GameObject rocketProjectile = (GameObject)Instantiate(rocket, myPos, rotation);
                 rocketProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-                rocketProjectile.GetComponent<RocketScript>().setWeaponParameters(damage, explosionSize);
+                rocketProjectile.GetComponent<RocketScript>().setWeaponParameters(damage*(1+extraDmg), explosionSize);
                 fireRateTimer = firerate;
             }
 

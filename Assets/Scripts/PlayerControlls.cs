@@ -23,6 +23,7 @@ public class PlayerControlls : MonoBehaviour {
     public int lives;
     public int maxLives = 10;
     public int collectedMoney = 0;
+    public float extraDamage = 0;
 
     public GameObject weapon;
     private IWeapon weapScript;
@@ -35,6 +36,7 @@ public class PlayerControlls : MonoBehaviour {
     void Start() {
         isPaused = false;
         weapScript = weapon.GetComponent<IWeapon>();
+        extraDamage = PlayerPrefs.GetFloat("increasedPower");
     }
 
     // Put Physics related shit here
@@ -69,7 +71,7 @@ public class PlayerControlls : MonoBehaviour {
             jump(jumpPower);
         }
         if (Input.GetMouseButton(0) && !isPaused) {
-            weapScript.fire();
+            weapScript.fire(extraDamage);
         }
     }
 

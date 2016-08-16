@@ -46,14 +46,14 @@ public class LaserWeapon : IWeapon {
     }
 
 
-    public override void fire() {
+    public override void fire(float extraDmg) {
         if (Input.GetKey(KeyCode.Mouse0)) {
             AudioSource.PlayClipAtPoint(shoot, transform.position);
         }
         if (hit.collider != null) {
             if (hit.collider.tag == "Enemy" || hit.collider.tag == "FlappyObsticle" || hit.collider.tag == "Player") {
                 if (hit.collider.tag == "Enemy") {
-                    hit.transform.SendMessage("getDamage", laserPower * Time.deltaTime);
+                    hit.transform.SendMessage("getDamage", laserPower * (1+extraDmg) * Time.deltaTime);
                 }
                 Vector3[] points = { myPos, hit.point };
                 lr.SetPositions(points);
